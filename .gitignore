@@ -1,6 +1,10 @@
 # macOS
 .DS_Store
 
+# Draft folder: 개인 연습 폴더 
+draft/
+
+
 # PowerPoint 임시 파일
 ~$*.pptx
 *.tmp
