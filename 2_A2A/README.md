@@ -1,9 +1,8 @@
-# Part 2. A2A 프로토콜 및 다중 에이전트 협업 
+# Part 2. Agent-to-Agent(A2A) Collaboration 
 
 * 강의 시작 전 진행 방향을 위한 사전 설문조사 입니다. 참여부탁드립니다. (1분) 
 👉 [Google Form 바로 가기](https://forms.gle/pnA3swLqHY2GNEUh8)
 
-# 🗓️ 2차시 교육 커리큘럼: A2A 협업 및 Agentic AI 구축
 
 ## **📘 교육 목표:**
 -   **[Analytic Agent 구축]** **기계 학습 기반의 고성능 AI 분석 전문가** 모델을 Vertex AI 환경에서 빠르게 재구축하고 **Tool API**로 배포한다.
