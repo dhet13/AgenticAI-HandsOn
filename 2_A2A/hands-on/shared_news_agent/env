@@ -1,0 +1,5 @@
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT=project-test-2-477511
+export GOOGLE_CLOUD_LOCATION=asia-northeast1
+export GOOGLE_CLOUD_STORAGE_BUCKET=adk-agent-deploy-bucket-ysh-tokyo
+export GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY=true
