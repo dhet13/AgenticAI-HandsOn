@@ -3,7 +3,7 @@ import vertexai
 #from vertexai.preview import agent_engines
 from vertexai import agent_engines
 
-
+# TODO: 아래 설정은 모두 직접 수정하셔야 함
 # ===== 설정 =====
 PROJECT = "project-test-2-477511"
 LOCATION = "asia-northeast1"
@@ -12,7 +12,11 @@ ENGINE = (
     "reasoningEngines/7096670258131369984"
 )
 SESSION_ID = "6409550807317872640"
+##################
+
+
 USER_ID = "testId"
+
 
 # ===== 초기화 =====
 vertexai.init(project=PROJECT, location=LOCATION)

@@ -10,6 +10,9 @@ from vertexai.preview.reasoning_engines import AdkApp
 # shared_news_agent/agent.py 안의 root_agent를 임포트하는 경로로 수정
 from shared_news_agent.agent import root_agent
 
+import datetime
+import os
+
 FLAGS = flags.FLAGS
 flags.DEFINE_string("project_id", None, "GCP Project ID (e.g., project-test-2-477511)")
 flags.DEFINE_string("location", None, "GCP Region (e.g., asia-northeast1)")
@@ -21,31 +24,7 @@ flags.DEFINE_bool("delete", False, "Delete an agent engine")
 flags.DEFINE_string("resource_id", None, "ReasoningEngine resource name")
 flags.mark_bool_flags_as_mutual_exclusive(["create", "delete"])
 
-# backup
-def _create() -> None:
-    # enable_tracing 인자 제거 (경고/오버라이드 방지)
-    adk_app = AdkApp(agent=root_agent)
 
-    # 텔레메트리는 환경변수 또는 콘솔 토글로 제어
-    # env_vars={"GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY": "true"}
-
-    remote = agent_engines.create(
-        adk_app,
-        display_name=root_agent.name,
-        # 필요 최소 요구사항만 지정 (내부에서 pickle/requirements는 ADK가 구성)
-        requirements=[
-            "google-adk==1.15.1",
-            "google-cloud-aiplatform[agent_engines]==1.126.1",
-            "pydantic==2.11.7",
-            "cloudpickle==3.1.2",
-        ],
-        # extra_packages=[]  # 필요 시 wheel/로컬패키지 추가
-    )
-    print(f"CREATED: {remote.resource_name}")
-
-
-import datetime
-import os
 
 def create() -> None:
     """Creates an agent engine for News Agent."""
