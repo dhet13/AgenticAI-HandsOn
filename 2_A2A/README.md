@@ -1,5 +1,9 @@
 # 🗓️ ADK로 구축하는 지능형 에이전트 팀
 
+* 강의 시작 전 진행 방향을 위한 사전 설문조사 입니다. 참여부탁드립니다. (1분) 
+👉 [Google Form 바로 가기](https://forms.gle/pnA3swLqHY2GNEUh8)
+
+
 ## **📘 교육 목표:**
 -   **[핵심 개념]** **ADK(Agent Development Kit)**를 사용하여 에이전트의 **Tool(도구)**, **Model(모델)**, **Instruction(지시어)**을 정의하여 기능하는 에이전트를 처음부터 구축합니다.
 -   **[실행]** ADK의 **Runner(실행기)**와 **SessionService(세션 관리자)**를 이해하고, 이를 통해 에이전트 상호작용을 관리 및 실행합니다.
