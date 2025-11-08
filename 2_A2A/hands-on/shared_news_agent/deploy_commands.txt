@@ -1,0 +1,12 @@
+python -m venv venv
+venv\Scripts\activate
+
+
+export PATH=$PATH:"/home/${USER}/.local/bin"
+python3 -m pip install google-adk==1.9.0
+
+
+adk deploy agent_engine google_news_agent \
+    --staging_bucket="gs://adk-agent-deploy-bucket" \
+    --display_name="google_news_agent"
+	

@@ -1,0 +1,43 @@
+curl -X POST \
+ -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+ -H "Content-Type: application/json" \
+https://<your-region>-aiplatform.googleapis.com/v1/projects/<your-projectid>/locations/<your-region>/reasoningEngines/<your-adent-id>:query \
+ -d '{"class_method": "create_session", "input": {"user_id": "testId"}}'
+
+
+
+
+curl -X POST \
+ -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+ -H "Content-Type: application/json" \
+https://asia-northeast1-aiplatform.googleapis.com/v1/projects/project-test-2-477511/locations/asia-northeast1/reasoningEngines/3729666586718502912:query \
+ -d '{"class_method": "create_session", "input": {"user_id": "testId"}}'
+
+
+
+
+
+curl \
+ -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+ -H "Content-Type: application/json" \
+ https://<your-region>-aiplatform.googleapis.com/v1/projects/<your-projectid>/locations/<your-region>/reasoningEngines/<your-adent-id>:streamQuery?alt=sse -d '{
+ "class_method": "async_stream_query",
+ "input": {
+   "user_id": "testId",
+   "session_id": "<session_id-retrived from above curl command>",
+   "message": "What is the top news today",
+  }
+}'
+
+
+curl \
+ -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+ -H "Content-Type: application/json" \
+ https://asia-northeast1-aiplatform.googleapis.com/v1/projects/project-test-2-477511/locations/asia-northeast1/reasoningEngines/3729666586718502912:streamQuery?alt=sse -d '{
+ "class_method": "async_stream_query",
+ "input": {
+   "user_id": "testId",
+   "session_id": "<session_id-retrived from above curl command>",
+   "message": "What is the top news today",
+  }
+}'
