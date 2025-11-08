@@ -1,14 +1,12 @@
-# Part 2. Agent-to-Agent(A2A) Collaboration 
-
-* 강의 시작 전 진행 방향을 위한 사전 설문조사 입니다. 참여부탁드립니다. (1분) 
-👉 [Google Form 바로 가기](https://forms.gle/pnA3swLqHY2GNEUh8)
-
+# 🗓️ ADK로 구축하는 지능형 에이전트 팀
 
 ## **📘 교육 목표:**
--   **[Analytic Agent 구축]** **기계 학습 기반의 고성능 AI 분석 전문가** 모델을 Vertex AI 환경에서 빠르게 재구축하고 **Tool API**로 배포한다.
--   **[Manager Agent 설계]** **Agentic AI**의 핵심 원리(계획, Tool 사용)를 이해하고, **Gemini API**를 활용하여 **AI 매니저 에이전트**를 구축한다.
--   **[A2A 협업 구현]** **AI 분석 전문가**의 API를 **Tool**로 연결하여, **A2A(Agent-to-Agent) 협업 워크플로우**를 완성한다.
--   **[Intelligent Workflow]** 사용자의 모호한 자연어 요청을 AI가 **능동적인 질문(Slot Filling)**을 통해 정형 데이터로 변환하는 **'지능형 면접관'** 시스템을 완성한다.
+-   **[핵심 개념]** **ADK(Agent Development Kit)**를 사용하여 에이전트의 **Tool(도구)**, **Model(모델)**, **Instruction(지시어)**을 정의하여 기능하는 에이전트를 처음부터 구축합니다.
+-   **[실행]** ADK의 **Runner(실행기)**와 **SessionService(세션 관리자)**를 이해하고, 이를 통해 에이전트 상호작용을 관리 및 실행합니다.
+-   **[유연성]** **LiteLLM**을 활용하여 동일한 에이전트 로직을 여러 다른 모델(Gemini, GPT, Claude)에서 실행하는 방법을 배웁니다.
+-   **[Agentic AI]** 전문화된 **서브 에이전트(Sub-agent)**를 포함하는 **멀티 에이전트 팀**을 설계하고, **자동 위임(Automatic Delegation)** 기능을 구현합니다.
+-   **[메모리]** **`ToolContext`** 및 **`output_key`**를 사용하여 **세션 스테이트(Session State)**를 구현하고, 에이전트가 대화의 맥락을 기억하게 만듭니다.
+-   **[라이브 배포]** **`adk web`** 도구를 사용하여 완성된 에이전트 팀을 **라이브 웹 데모**로 배포하고 시연합니다.
 
 ---
 
@@ -16,17 +14,17 @@
 
 | 세션 | 시간 | 내용 |
 | :--- | :--- | :--- |
-| **Session 1** | **09:30 – 10:20** (50분) | 전체 Overview 및 Agentic AI 환경 구축 |
+| **Session 1** | **09:30 – 10:20** (50분) | 설정 및 첫 번째 에이전트 정의 |
 | 휴식 | 10:20 – 10:35 (15분) | |
-| **Session 2** | **10:35 – 11:25** (50분) |  ML 대출 심사 모델 구축 및 '배포 시작' |
+| **Session 2** | **10:35 – 11:25** (50분) | 첫 번째 에이전트 실행하기 |
 | 휴식 | 11:25 – 11:40 (15분) | |
-| **Session 3** | **11:40 – 12:30** (50분) | Gemini에 'AI 심사관 API'를 Tool로 정의하기 |
-| **점심 식사** | **12:30 – 13:30** (60분) | *(Endpoint 배포 완료 대기)* |
-| **Session 4** | **13:30 – 14:20** (50분) | 첫 A2A 협업 구현 (Function Calling 테스트) |
+| **Session 3** | **11:40 – 12:30** (50분) | [선택] LiteLLM을 이용한 멀티 모델 활용 |
+| **점심 식사** | **12:30 – 13:30** (60분) | |
+| **Session 4** | **13:30 – 14:20** (50분) | 에이전트 팀 빌딩 (위임) |
 | 휴식 | 14:20 – 14:35 (15분) | |
-| **Session 5** | **14:35 – 15:25** (50분) | '지능형 면접관' 설계 및 정보 수집 루프 구현 |
+| **Session 5** | **14:35 – 15:25** (50분) | 세션 스테이트로 메모리 추가하기 |
 | 휴식 | 15:25 – 15:40 (15분) | |
-| **Session 6** | **15:40 – 16:30** (50분) | 최종 파이프라인 완성 및 E2E 테스트 |
+| **Session 6** | **15:40 – 16:30** (50분) | **(신규)** `adk web`을 이용한 라이브 데모 배포 |
 
 ---
 <br>
@@ -34,115 +32,169 @@
 # 📚 세션별 상세 내용
 
 
-## Session 1: 전체 Overview 및 Agentic AI 환경 구축 (09:30 – 10:20)
+## Session 1: 설정 및 첫 번째 에이전트 정의 (09:30 – 10:20)
 
 ### 🎯 학습 목표
-- 전체 프로젝트의 아키텍처(A2A 협업)를 이해합니다.
-- Agentic AI의 핵심 개념(계획, 도구 사용)을 학습합니다.
-- Gemini API를 사용하기 위한 Vertex AI SDK 환경을 구축합니다.
+-   과정 목표와 ADK 프레임워크를 이해합니다.
+-   필수 라이브러리(ADK, LiteLLM)를 설치합니다.
+-   여러 LLM 제공 업체의 API 키를 안전하게 구성합니다.
+-   **Tool(도구)**(Python 함수)을 정의하고, **Docstring(설명문)**의 중요성을 이해합니다.
+-   기본 **Agent(에이전트)**를 정의하고, `model`, `instruction`, `tools`를 설정합니다.
 
 ### 🧠 이론 및 개념
-1.  **전체 Overview:** 클라우드(Vertex AI) 기반 ML 전문가 모델 + LLM 매니저를 통합한 멀티 에이전트 구조 이해.
-2.  **Agentic AI의 이해:** 단순 챗봇 vs 자율 에이전트 (계획, 도구 사용, 상태 관리).
-3.  **A2A 협업 모델:** LLM(소통/추론)과 ML(정밀예측)의 역할 분담과 연결 필요성.
+1.  **Overview:** ADK란 무엇인가? 왜 날씨 봇을 만드나? 6개 세션의 전체 계획을 리뷰합니다.
+2.  **핵심 구성요소:** 사용자, 에이전트('두뇌'), Tool('손')의 관계를 설명합니다.
+3.  **Tool Docstring:** LLM이 Tool의 사용법과 시기를 이해하기 위해 Docstring을 '읽는다'는 점을 강조합니다.
 
-### 🛠️ 실습 (Vertex AI Notebook)
-1.  `Session 2`를 위한 새 Jupyter Notebook 생성.
-2.  **SDK 설치 및 업데이트:** `!pip install google-cloud-aiplatform xgboost --upgrade`
-3.  **환경 초기화:** `aiplatform.init(project=PROJECT_ID, location=REGION)` 설정.
-4.  **Gemini 모델 로드 및 테스트:** `GenerativeModel("gemini-pro")` 객체 생성 및 간단한 추론 테스트.
+### 🛠️ 실습 (튜토리얼 단계 0 & 1 일부)
+1.  **설정 (단계 0):** `!pip install google-adk litellm -q` 실행.
+2.  **라이브러리 임포트 (단계 0):** 필요한 모든 라이브러리를 임포트합니다.
+3.  **API 키 설정 (단계 0):** Gemini, OpenAI, Anthropic의 API 키를 환경 변수로 설정하도록 안내합니다.
+4.  **Tool 정의 (단계 1):** `get_weather` 함수를 작성합니다. 이 함수의 Docstring을 상세히 분석합니다.
+5.  **Agent 정의 (단계 1):** `weather_agent` (v1)를 생성합니다. `instruction` 프롬프트를 분석합니다.
 
 ***
 
-## Session 2: 기계학습(ML) 기반 대출 심사 모델 구축 및 배포 (10:35 – 11:25)
+## Session 2: 첫 번째 에이전트 실행하기 (10:35 – 11:25)
 
 ### 🎯 학습 목표
-- 전문가 확보를 위한 ML 모델 구축 전 과정을 **압축 실행**하여 전문가 API를 생성합니다.
-- Endpoint 배포를 **'시작'**하고, 백그라운드에서 배포가 진행되도록 합니다.
+-   대화 관리를 위한 `SessionService`의 역할을 이해합니다.
+-   에이전트의 실행 엔진인 `Runner`의 역할을 이해합니다.
+-   `async`/`await`를 사용하여 에이전트와 비동기적으로 상호작용하는 방법을 배웁니다.
+-   에이전트에게 쿼리를 보내고, Tool에 의해 생성된 응답을 성공적으로 수신합니다.
 
 ### 🧠 이론 및 개념
-1.  **ML 기반 전문가 모델 구축:** 데이터 로드 → 전처리 → 학습(XGBoost) → 저장(GCS) → 등록(Registry) → 배포(Endpoint)의 6단계를 빠르게 복습합니다.
-2.  **비동기 배포:** Endpoint 배포는 15-20분이 소요되며, 이 시간 동안 다른 작업을 할 수 있음을 안내합니다.
+1.  **SessionService:** 대화 기록과 (나중에 배울) 메모리를 관리합니다. `InMemorySessionService`는 테스트용 임시 저장소입니다.
+2.  **Runner:** 전체 흐름(사용자 입력 → LLM → Tool → LLM → 최종 응답)을 조율하는 엔진입니다.
+3.  **Async & Events:** LLM/Tool 호출은 느린 작업(I/O)입니다. `asyncio`는 이를 효율적으로 실행합니다. `Runner`는 `Events`(예: "tool_requested", "final_response")를 반환하며, 우리는 이 이벤트를 관찰할 수 있습니다.
 
-### 🛠️ 실습 (제공된 Fast-Track Notebook 실행)
-1.  **[제공된 노트북 실행]** 전문가 모델 학습 코드가 담긴 노트북을 제공받습니다.
-2.  **변수 설정:** 수강생 각자의 `PROJECT_ID`, `BUCKET_NAME`을 입력합니다.
-3.  **전체 셀 실행:** 'Run All Cells' 또는 Shift+Enter로 모든 단계를 실행합니다.
-    -   (데이터 로드, XGBoost 학습, GCS 업로드, Model Registry 등록이 자동으로 수행됨)
-4.  **배포 시작:** 마지막 셀에서 `model.deploy(...)` (SDK 사용) 또는 UI를 통해 Endpoint 배포를 **"시작"**합니다.
-5.  **GCP 콘솔 확인:** Endpoint가 '만드는 중...' 상태임을 확인하고 **기다리지 않고 바로 다음 세션으로 넘어갑니다.**
+### 🛠️ 실습 (튜토리얼 단계 1 완료)
+1.  **Runner 설정 (단계 1):** `InMemorySessionService`를 정의하고 `session`을 생성합니다. `Runner`를 정의합니다.
+2.  **상호작용 함수 (단계 1):** `call_agent_async` 헬퍼 함수를 생성합니다. 왜 `is_final_response()`를 찾기 위해 이벤트를 반복하는지 설명합니다.
+3.  **대화 실행 (단계 1):** `run_conversation` 블록을 실행합니다.
+4.  **출력 분석:** 로그를 추적합니다: 사용자 쿼리 → `--- Tool: get_weather called... ---` → 에이전트 응답. "Paris" 오류 케이스를 테스트하고 에이전트가 지시대로 처리하는지 확인합니다.
 
 ***
 
-## Session 3: Gemini에 'AI 심사관 API'를 Tool로 정의하기 (11:40 – 12:30)
+## Session 3: [선택] LiteLLM을 이용한 멀티 모델 활용 (11:40 – 12:30)
 
 ### 🎯 학습 목표
-- (Endpoint가 백그라운드에서 배포되는 동안) Gemini가 사용할 수 있도록 'AI 대출 심사 API'의 **Tool 스키마**를 Python 코드로 정의합니다.
+-   작업에 따라 다른 LLM을 사용하는 것의 이점을 이해합니다.
+-   ADK가 **LiteLLM**을 사용하여 모델 간의 차이점을 어떻게 추상화하는지 배웁니다.
+-   GPT-4o와 Claude Sonnet을 사용하여 새 에이전트를 생성합니다.
+-   *동일한 Tool*과 *동일한 로직*이 어떻게 다른 "두뇌"에 의해 구동될 수 있는지 관찰합니다.
 
 ### 🧠 이론 및 개념
-1.  **Function Calling 원리:** LLM에게 API의 '사용 설명서'를 제공하는 방법.
-2.  **Tool 스키마 설계:** 전문가 모델의 모든 피처(Features)를 JSON Schema 파라미터로 명시하는 방법.
+1.  **왜 멀티 모델인가?** 성능, 비용, 기능 차이(튜토리얼 서문 참조)에 대해 논의합니다.
+2.  **LiteLLM 래퍼:** `LiteLlm(model="provider/model_name")`가 ADK에게 LiteLLM 라이브러리를 통해 외부 모델을 호출하라고 지시하는 "마법"임을 설명합니다.
 
-### 🛠️ 실습 (Session 1 노트북에서 계속)
-1.  `Tool` 및 `FunctionDeclaration` 클래스 임포트.
-2. 학습된 `model_features.pkl` 파일을 **다운로드**하여 피처 리스트를 로드합니다.
-3.  이 피처 리스트를 기반으로 `check_loan_approval` 함수의 모든 파라미터를 정의하는 Python 코드 작성.
-4.  정의된 `Tool` 객체를 `gemini-pro` 모델에 연결하여 초기화.
-5.  *(시간이 남으면) 점심 식사 후 진행할 Session 4의 코드(A2A 호출)를 미리 리뷰합니다.*
+### 🛠️ 실습 (튜토리얼 단계 2)
+1.  **GPT 에이전트 정의:** `LiteLlm(model=MODEL_GPT_4O)`를 사용하여 `weather_agent_gpt`를 생성합니다.
+2.  **GPT Runner 설정:** GPT 테스트를 위해 *새롭고 분리된* `SessionService`와 `Runner`를 생성합니다.
+3.  **GPT 에이전트 테스트:** 테스트 쿼리("What's the weather in Tokyo?")를 실행합니다.
+4.  **Claude 에이전트 정의:** `LiteLlm(model=MODEL_CLAUDE_SONNET)`을 사용하여 `weather_agent_claude`에 대해 동일한 과정을 반복합니다.
+5.  **Claude 에이전트 테스트:** 테스트 쿼리("Weather in London please.")를 실행합니다.
+6.  **결과 비교:** 학생들에게 Gemini, GPT, Claude의 응답 *어조와 표현*을 비교해 보라고 요청합니다.
 
 ***
 
-## Session 4: 첫 A2A 협업 구현 (Function Calling 테스트) (13:30 – 14:20)
+## Session 4: 에이전트 팀 빌딩 (위임) (13:30 – 14:20)
 
 ### 🎯 학습 목표
-- (점심시간 동안 배포가 완료된) Endpoint를 사용하여 **첫 A2A 협업**을 테스트합니다.
-- Gemini가 FunctionCall을 반환하면, 실제 API를 호출하고 결과를 다시 Gemini에게 피드백하는 전체 루프를 구현합니다.
+-   멀티 에이전트 시스템의 가치(모듈성, 전문화)를 이해합니다.
+-   전문화된 **서브 에이전트**(`greeting_agent`, `farewell_agent`)를 정의합니다.
+-   팀을 총괄하는 **루트 에이전트(Root Agent)**를 정의합니다.
+-   서브 에이전트의 `description`(설명) 필드를 기반으로 **자동 위임(Automatic Delegation)**이 어떻게 작동하는지 이해합니다.
 
 ### 🧠 이론 및 개념
-1.  **추론 및 실행(Reasoning & Action) Cycle:** LLM의 결정 → 코드 실행 → LLM의 피드백의 3단계 워크플로우.
-2.  **A2A 호출 함수 구현:** `Endpoint.predict()` 코드를 재활용하여 API 호출 함수를 정의.
+1.  **왜 에이전트 팀인가?** "모든 것을 하는" 단일 에이전트에서 "전문가 팀"으로 전환합니다.
+2.  **루트 vs. 서브 에이전트:** 계층 구조를 설명합니다. 루트는 코디네이터, 서브는 전문가입니다.
+3.  **자동 위임:** 루트 에이전트의 LLM이 서브 에이전트의 **`description`**을 읽고 작업을 위임한다는 것을 강조합니다. 좋은 `description`이 매우 중요합니다.
 
-### 🛠️ 실습 (One-Shot Prediction)
-1.  **Endpoint 상태 확인:** GCP 콘솔에서 Endpoint가 '활성' 상태인지 확인. (Endpoint ID 복사)
-2.  **A2A 호출 함수 구현:** `FunctionCall` 객체를 받아 전문가 모델의 Endpoint API를 호출하는 `call_loan_api(...)` 함수 작성.
-3.  **테스트 프롬프트 작성:** (정보가 모두 포함된) 상세한 대출 요청 프롬프트 작성.
-4.  **전체 루프 실행:**
-    -   `model.generate_content(...)` 호출 → `FunctionCall` 획득.
-    -   `call_loan_api(...)` 호출 → API 예측 결과(`[0]` 또는 `[1]`) 획득.
-    -   API 결과를 다시 Gemini에게 전달 → "심사 결과, 승인/거절입니다." 최종 자연어 답변 획득.
+### 🛠️ 실습 (튜토리얼 단계 3)
+1.  **새 Tool 정의:** `say_hello`와 `say_goodbye` 함수를 생성합니다.
+2.  **서브 에이전트 정의:** `greeting_agent`와 `farewell_agent`를 생성합니다. 이들의 `description`과 `instruction` 필드를 면밀히 검토합니다.
+3.  **루트 에이전트 정의:** `weather_agent_team` (v2)를 생성합니다.
+    -   이 에이전트가 여전히 자신만의 Tool(`get_weather`)을 가지고 있음을 보여줍니다.
+    -   새로운 `sub_agents=[...]` 파라미터를 강조합니다.
+    -   이 에이전트의 `instruction`이 *언제* 위임해야 하는지 명시적으로 알려준다는 것을 분석합니다.
+4.  **팀 테스트:** `run_team_conversation` 블록을 실행합니다.
+5.  **로그 분석 (가장 중요):**
+    -   "Hello there!" → `--- Tool: say_hello called ---`
+    -   "Weather in New York?" → `--- Tool: get_weather called ---`
+    -   "Thanks, bye!" → `--- Tool: say_goodbye called ---`
+    -   결론: 위임이 성공적으로 작동함을 확인합니다!
 
 ***
 
-## Session 5: '지능형 면접관' 설계 및 정보 수집 루프 구현 (14:35 – 15:25)
+## Session 5: 세션 스테이트로 메모리 추가하기 (14:35 – 15:25)
 
 ### 🎯 학습 목표
-- 사용자의 모호한 요청에 대해 AI가 능동적으로 정보를 수집(Slot Filling)하도록 **시스템 프롬프트**를 설계하고, **대화 루프**를 구현합니다.
+-   에이전트가 맥락 있는 대화를 위해 **메모리(Session State)**를 필요로 하는 이유를 이해합니다.
+-   Tool이 `ToolContext`를 전달받아 상태(State)를 **읽는** 방법을 배웁니다.
+-   Tool이 `tool_context.state`를 사용하여 상태에 **쓰는** 방법을 배웁니다.
+-   에이전트의 `output_key`를 사용하여 에이전트의 최종 응답을 상태에 **자동 저장**하는 방법을 배웁니다.
 
 ### 🧠 이론 및 개념
-1.  **Slot Filling:** 정해진 '슬롯'(API 파라미터)을 채우기 위해 대화를 주도하는 AI 기술.
-2.  **대화 상태 관리:** 수집된 정보(`collected_data` 딕셔너리)를 Python 코드로 추적하는 방법.
+1.  **세션 스테이트란?** 특정 사용자 세션에 연결된 영구적인 파이썬 딕셔너리(`session.state`)입니다.
+2.  **`ToolContext`:** `get_weather_stateful` 같은 Tool이 세션의 상태에 접근할 수 있게 해주는 "다리"입니다.
+3.  **`output_key`:** "내 최종 텍스트 응답이 무엇이든, `session.state['my_key']`에 저장해"라는 간단한 에이전트 설정입니다.
 
-### 🛠️ 실습 (Slot Filling Loop)
-1.  `model.start_chat()`으로 채팅 세션 초기화 및 **'지능형 면접관' 시스템 프롬프트** 주입.
-2.  `collected_data = {}` 딕셔너리 정의.
-3.  `while True:` 루프를 사용하여, Gemini의 질문과 사용자의 답변을 주고받는 대화형 인터페이스 구현.
-4.  사용자 답변을 파싱하여 `collected_data`에 저장.
-5.  Gemini가 **"모든 정보가 수집되었습니다."**와 같은 종료 키워드를 반환하면 루프를 `break`하는 로직 구현.
+### 🛠️ 실습 (튜토리얼 단계 4)
+1.  **상태 초기화:** *새로운* 세션(`session_service_stateful`)을 만들고, 생성 시 `initial_state`를 전달합니다.
+2.  **상태 인식 Tool 정의:** `get_weather_stateful`을 생성합니다.
+    -   새로운 `tool_context: ToolContext` 파라미터를 보여줍니다.
+    -   `tool_context.state.get(...)` 라인(단위 읽기)을 보여줍니다.
+    -   온도 변환 로직을 보여줍니다.
+    -   `tool_context.state["last_city_checked_stateful"] = city` 라인(상태 쓰기)을 보여줍니다.
+3.  **상태 인식 에이전트 정의:** `root_agent_stateful` (v4)를 생성합니다.
+    -   새로운 `get_weather_stateful` Tool을 사용하는 것을 보여줍니다.
+    -   새로운 `output_key="last_weather_report"` 파라미터를 강조합니다.
+4.  **상태 흐름 테스트:** `run_stateful_conversation` 블록을 실행합니다.
+5.  **흐름 분석:**
+    -   턴 1 (London): Tool이 "Celsius"(초기 상태)를 읽음.
+    -   수동 업데이트: 테스트를 위해 상태를 "Fahrenheit"로 *수동* 변경.
+    -   턴 2 (New York): Tool이 "Fahrenheit"(새 상태)를 읽고 온도를 변환.
+    -   최종 상태 검사: `final_session.state`를 확인하여 `user_preference_temperature_unit`이 "Fahrenheit"인지, `last_city_checked_stateful`이 "New York"인지, `last_weather_report`가 에이전트가 *마지막으로* 말한 내용인지 확인.
 
 ***
 
-## Session 6: 최종 파이프라인 완성 및 E2E 테스트 (15:40 – 16:30)
+## Session 6: (신규) `adk web`을 이용한 라이브 데모 배포 (15:40 – 16:30)
 
 ### 🎯 학습 목표
-- Session 5에서 수집된 최종 데이터를 전문가 모델 API 형식에 맞게 전처리하고, A2A 협업을 실행합니다.
-- '지능형 면접관'부터 '최종 심사 결과'까지의 End-to-End 파이프라인을 완성하고 시연합니다.
+-   '노트북 테스트 모드'와 '서버 실행 모드'의 차이점을 이해합니다.
+-   여러 셀의 코드를 하나의 파이썬 스크립트(`main.py`)로 리팩토링합니다.
+-   `adk web` 명령어를 사용하여 에이전트 챗봇 서버를 실행합니다.
+-   **웹 UI 데모**에 접속하여 Session 5까지 만든 **메모리 기능이 있는 에이전트 팀**을 라이브로 시연합니다.
 
 ### 🧠 이론 및 개념
-1.  **E2E(End-to-End) 파이프라인:** 사용자 입력 → 질문 → 데이터 수집 → 전처리 → A2A 호출 → 최종 응답의 전체 흐름 통합.
-2.  **데이터 무결성:** 수집된 자연어 데이터를 API가 요구하는 정형 데이터(원-핫 인코딩 등)로 최종 변환.
+1.  **`adk web`이란?** `adk web <파일.py>`는 ADK가 자동으로 `Runner`와 `SessionService`를 관리하며, **웹 기반 챗봇 UI**를 생성해주는 강력한 배포 도구입니다.
+2.  **코드 리팩토링:** 노트북의 `await call_agent_async(...)` 같은 수동 실행 코드는 더 이상 필요 없습니다. `adk web`은 에이전트 '정의'만 있으면 됩니다.
 
-### 🛠️ 실습 (파이프라인 통합)
-1.  Session 5의 대화 루프가 종료되면, `collected_data` 딕셔너리를 **전문가 모델 모델의 전처리 함수**에 연결.
-2.  전처리된 데이터를 Session 4의 **A2A 호출 함수(`call_loan_api`)**에 전달.
-3.  API 결과를 다시 Gemini에게 전달하여 **최종 자연어 답변** 생성.
-4.  **종합 시연:** Notebook을 처음부터 실행하여, "대출 받고 싶어요"라는 첫마디부터 최종 심사 결과가 나올 때까지의 전체 과정을 시연 및 검증.
+### 🛠️ 실습 (Workbench 터미널 & UI)
+1.  **[코드 리팩토링]** JupyterLab 파일 탐색기에서 `main.py`라는 새 파일을 생성합니다.
+2.  **[코드 복사]** Session 1~5에서 **'정의'**한 모든 코드를 `main.py`에 복사합니다.
+    -   모든 `import` 문
+    -   API 키 설정 (`os.environ[...]`)
+    -   Tool 정의: `get_weather_stateful`, `say_hello`, `say_goodbye`
+    -   Agent 정의: `greeting_agent`, `farewell_agent`, `root_agent_stateful` (v4)
+3.  **[필수 코드 추가]** `main.py` 파일 **맨 아래**에 `adk web`이 루트 에이전트를 인식할 수 있도록 다음 코드를 추가합니다.
+    ```python
+    # main.py 맨 아래 추가
+    #
+    # root_agent_stateful 변수가 S5에서 정의한 최종 에이전트여야 함
+    if __name__ == "__main__":
+        from google.adk.tools.adk_tool import AdkTool
+        
+        # ADK가 이 파일을 실행할 때 'root_agent_stateful'을
+        # 메인 에이전트로 사용하도록 등록합니다.
+        AdkTool(agent=root_agent_stateful).run()
+    ```
+4.  **[서버 실행]** JupyterLab에서 `File > New > Terminal`을 열어 새 터미널을 시작합니다.
+5.  터미널에서 다음 명령어를 실행하여 웹 서버를 시작합니다.
+    ```bash
+    adk web main.py --port=8080
+    ```
+6.  **[라이브 데모]** 서버가 실행되면, Vertex AI Workbench 우측 상단의 **'미리보기(Preview)'** 버튼을 클릭하고 **'포트 8080에서 미리보기'**를 선택합니다.
+7.  **[최종 테스트]** 새 브라우저 탭에 **ADK가 생성한 챗봇 UI**가 나타납니다.
+8.  학생들은 이 웹 UI에서 "Hello", "날씨 알려줘", "Fahrenheit로 바꿔줘"(*이건 S5에서 Tool로 구현해야 함*), "잘 가" 등을 입력하며 **메모리와 위임 기능이 모두 작동하는 라이브 서비스**를 직접 체험하며 과정을 마무리합니다.
